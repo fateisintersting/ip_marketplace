@@ -3,12 +3,30 @@ name = "ip_market_backend"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
 candid = "0.10"
-ic-cdk = "0.17"
-ic-cdk-timers = "0.11" # Feel free to remove this dependency if you don't need timers
+ic-cdk = "0.12"
+ic-stable-structures = "0.6"
+serde = { version = "1.0", features = ["derive"] }
+sha2 = "0.10"
+hex = "0.4"
+
+[dependencies.getrandom]
+version = "0.2"
+features = ["custom"]
+
+# For testing
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+
+# Optimize for size in release builds
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.release.package.ic-wasm]
+opt-level = 2
